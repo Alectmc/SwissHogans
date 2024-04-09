@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 
 <html>
-    <head></head>
+    <head>
+        <link type="text/css" rel="stylesheet" href="MainPage.css" />
+    </head>
     <title></title>
 
     <body>
