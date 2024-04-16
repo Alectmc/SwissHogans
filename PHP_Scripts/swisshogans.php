@@ -6,6 +6,10 @@
 <body>
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <label>
+            Enter name of sandwich (Only if Custom):
+            <input type="text" name="SandName">
+        </label><br>
+        <label>
             Enter your Bread:
             <input type="text" name="Bread">
         </label><br>
@@ -17,7 +21,6 @@
             Enter your Cheese:
             <input type="text" name="Cheese">
         </label><br>
-        <input type="submit" name="submit" value="Submit">
 
 		<!-- Checkboxes for condiments 
 	
@@ -59,10 +62,10 @@ With selected:  Check all -->
             <input type="checkbox" name="Ranch" value="1">
         </label><br><label>
 		Italian Dressing:
-            <input type="checkbox" name="Italian Dressing" value="1">
+            <input type="checkbox" name="ItalianDressing" value="1">
         </label><br><label>
 		Hot Sauce:
-            <input type="checkbox" name="Hot Sauce" value="1">
+            <input type="checkbox" name="HotSauce" value="1">
         </label><br><label>
 		Marinara:
             <input type="checkbox" name="Marinara" value="1">
@@ -74,7 +77,19 @@ With selected:  Check all -->
             <input type="checkbox" name="Jalapenos" value="1">
         </label><br><label>
 		Banana Peppers:
-            <input type="checkbox" name="Banana Peppers" value="1">
+            <input type="checkbox" name="BananaPeppers" value="1">
+        </label><br><label>
+            Sauerkraut:
+            <input type="checkbox" name="Sauerkraut" value="1">
+        </label><br><label>
+            Thousand Island Dressing:
+            <input type="checkbox" name="ThousandIslandDressing" value="1">
+        </label><br><label>
+            Sauteed Onions:
+            <input type="checkbox" name="SauteedOnions" value="1">
+        </label><br><label>
+            Sauteed Peppers:
+            <input type="checkbox" name="SauteedPeppers" value="1">
         </label><br>
         <!-- Add more checkboxes for other condiments -->
         <!-- Add checkboxes for other ingredients -->
@@ -102,7 +117,8 @@ With selected:  Check all -->
 // With selected:  Check all -->
 			
 			
-			$Bread = $_POST["Bread"];
+			//$Bread = $_POST["Bread"]; UNDER CONSTRUCTION
+            $Name = $_POST["SandName"];
             $Meat = $_POST["Meat"];
             $Cheese = $_POST["Cheese"];
 
@@ -114,19 +130,75 @@ With selected:  Check all -->
             $Mustard = $_POST["Mustard"];
             $Ranch = $_POST["Ranch"];
 
-			$ItalianDressing = $_POST["Italian Dressing"];
-            $HotSauce = $_POST["Hot Sauce"];
+			$ItalianDressing = $_POST["ItalianDressing"];
+            $HotSauce = $_POST["HotSauce"];
             $Marinara = $_POST["Marinara"];
 
 			$Mushrooms = $_POST["Mushrooms"];
             $Jalapenos = $_POST["Jalapenos"];
-            $BananaPeppers = $_POST["Banana Peppers"];
+            $BananaPeppers = $_POST["BananaPeppers"];
 
+            $Sauerkraut = $_POST["Sauerkraut"];
+            $ThousandIslandDressing = $_POST["ThousandIslandDressing"];
+            $SauteedOnions = $_POST["SauteedOnions"];
+            $SauteedPeppers = $_POST["SauteedPeppers"];
+
+            //If a box is not checked, set variable to NULL
+            //NULL will then be set for each column when the query is run.
+            if(empty($Mayo)){
+                $Mayo = "NULL";
+            }
+            if(empty($Lettuce)){
+                $Lettuce = "NULL";
+            }
+            if(empty($Tomato)){
+                $Tomato = "NULL";
+            }
+            if(empty($Onion)){
+                $Onion = "NULL";
+            }
+            if(empty($Mustard)){
+                $Mustard = "NULL";
+            }
+            if(empty($Ranch)){
+                $Ranch = "NULL";
+            }
+            if(empty($ItalianDressing)){
+                $ItalianDressing = "NULL";
+            }
+            if(empty($HotSauce)){
+                $HotSauce = "NULL";
+            }
+            if(empty($Marinara)){
+                $Marinara = "NULL";
+            }
+            if(empty($Mushrooms)){
+                $Mushrooms = "NULL";
+            }
+            if(empty($Jalapenos)){
+                $Jalapenos = "NULL";
+            }
+            if(empty($BananaPeppers)){
+                $BananaPeppers = "NULL";
+            }
+            if(empty($Sauerkraut)){
+                $Sauerkraut = "NULL";
+            }
+            if(empty($ThousandIslandDressing)){
+                $ThousandIslandDressing = "NULL";
+            }
+            if(empty($SauteedOnions)){
+                $SauteedOnions = "NULL";
+            }
+            if(empty($SauteedPeppers)){
+                $SauteedPeppers = "NULL";
+            }
+            
             // Connect to your MySQL database
             $servername = "localhost";
             $username = "root";
             $password = "";
-            $dbname = "swisshogans";
+            $dbname = "SwissHogans";
 
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -136,8 +208,22 @@ With selected:  Check all -->
                 die("Connection failed: " . $conn->connect_error);
             }
 
+            echo "Connection Made... <br>";
+            
+
             // Prepare SQL statement to insert the bread, meat, and cheese values into the sandwiches table
-            $sql = "INSERT INTO sandwiches (Bread, Meat, Cheese, Mayo, Lettuce, Tomato, Onion, Mustard, Ranch, ItalianDressing, HotSauce, Marinara, Mushrooms, Jalapenos, BananaPeppers) VALUES ('$Bread', '$Meat', '$Cheese', '$Mayo', '$Lettuce', '$Tomato', '$Onion', '$Mustard', '$Ranch', '$ItalianDressing', '$HotSauce', '$Marinara', '$Mushrooms', '$Jalapenos', '$BananaPeppers')";
+            $maxQuery = "SELECT MAX(SandwichID) AS 'MaxID' FROM SANDWICHES";
+            $maxResult = mysqli_query($conn, $maxQuery);
+            $maxAssoc = mysqli_fetch_assoc($maxResult);
+            $maxSandwichID = $maxAssoc["MaxID"];
+            echo "QUERY MADE: $maxSandwichID <br>";
+            $maxSandwichID = $maxSandwichID + 1;
+            echo "New MAXID = $maxSandwichID <br>";
+            echo "$Name, $Meat, $Cheese, $Mayo, $Lettuce, $Tomato, $Onion, $Mustard, $Ranch, $ItalianDressing, $HotSauce, $Marinara, $Mushrooms, $Jalapenos, $BananaPeppers, $Sauerkraut, $ThousandIslandDressing, $SauteedOnions, $SauteedPeppers, $maxSandwichID <br>";
+            $sql = "INSERT INTO SANDWICHES VALUES ('$Name', '$Meat', '$Cheese', $Mayo, $Lettuce, $Tomato, $Onion, $Mustard, $Ranch, $ItalianDressing, $HotSauce, $Marinara, $Mushrooms, $Jalapenos, $BananaPeppers, $Sauerkraut, $ThousandIslandDressing, $SauteedOnions, $SauteedPeppers, $maxSandwichID)";
+
+            echo "$Mayo, $Lettuce DONE <br>";
+            echo "Attempting SQL query";
 
             // Execute SQL query
             if ($conn->query($sql) === TRUE) {
