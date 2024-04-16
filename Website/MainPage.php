@@ -19,6 +19,9 @@
         <br>
         <h1>Welcome to Swiss Hogans!</h1>
 
+        <br><br>
+        <h3>Menu:</h3>
+
         <?php
             $server = "localhost";
             $username = "root";
@@ -30,15 +33,28 @@
             // Get pre-made sandwiches
             $getSandwiches = "SELECT *
                                 FROM sandwiches
-                                WHERE SandwichID BETWEEN 1 AND 9";
+                                WHERE SandwichID BETWEEN 1 AND 10";
 
             $result = mysqli_query($conn, $getSandwiches);
 
             echo "<ol>";
             while($row = mysqli_fetch_assoc($result)) {
                 echo "<li>";
-                foreach($row as $value) { // get the value for each row
-                    echo "<td>" . $value . "</td>"; 
+                foreach($row as $key=>$value) { // get the value for each row
+                    if($key != "SandwichID") {
+                        if($key == "Name") {
+                            echo "<b>" . $value . "</b><br>";
+                        }
+                        else if($value == "1") {
+                            echo ", " . $key;
+                        }
+                        else if($key == "Cheese") {
+                            echo ", " . $value;
+                        }
+                        else {
+                            echo "<td>" . $value . "</td>"; 
+                        }
+                    }
                 }
                 echo "</li>";
 

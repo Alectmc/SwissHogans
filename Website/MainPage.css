@@ -4,16 +4,16 @@ body{
 
 h1{
     text-align: center;
-    margin-left: 0px;
+    margin: 0px auto;
     
 }
 
 img{
     float: right;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border: solid black 2px;
-    margin-right: 50px;
+    margin-right: 75px;
 }
 
 #ul_nav{
