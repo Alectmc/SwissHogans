@@ -2,8 +2,8 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="MainPage.css">
-        <link type="text/css" rel="stylesheet" href="MainPage.css" />
+        <link rel="stylesheet" href="OrderPage.css">
+        <link type="text/css" rel="stylesheet" href="OrderPage.css" />
     </head>
     <title></title>
 
@@ -14,9 +14,10 @@
                 <li><a href="./OrderPage.php">Order</a></li>
             </ul>
         </div>
+
         <img src="./img.png">
         <br>
         <br>
-        <h1>Welcome to Swiss Hogans!</h1>
+        <h1>Place Order Below</h1>
     </body>
 </html>

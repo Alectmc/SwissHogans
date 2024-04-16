@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 09, 2024 at 06:54 PM
+-- Generation Time: Apr 16, 2024 at 07:08 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `SANDWICHES` (
+  `Name` varchar(30) DEFAULT NULL,
   `Meat` varchar(30) DEFAULT NULL,
   `Cheese` varchar(30) DEFAULT NULL,
-  `Bread` varchar(30) DEFAULT NULL,
   `Mayo` int(11) DEFAULT NULL,
   `Lettuce` int(11) DEFAULT NULL,
   `Tomato` int(11) DEFAULT NULL,
@@ -42,8 +42,26 @@ CREATE TABLE `SANDWICHES` (
   `Marinara` int(11) DEFAULT NULL,
   `Mushrooms` int(11) DEFAULT NULL,
   `Jalapenos` int(11) DEFAULT NULL,
-  `BananaPeppers` int(11) DEFAULT NULL
+  `BananaPeppers` int(11) DEFAULT NULL,
+  `Sauerkraut` int(11) DEFAULT NULL,
+  `ThousandIslandDressing` int(11) DEFAULT NULL,
+  `SandwichID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `SANDWICHES`
+--
+
+INSERT INTO `SANDWICHES` (`Name`, `Meat`, `Cheese`, `Mayo`, `Lettuce`, `Tomato`, `Onion`, `Mustard`, `Ranch`, `ItalianDressing`, `HotSauce`, `Marinara`, `Mushrooms`, `Jalapenos`, `BananaPeppers`, `Sauerkraut`, `ThousandIslandDressing`, `SandwichID`) VALUES
+('Italian', 'Ham, Salami, Pepperoni', 'Provolone', 1, 1, 1, 1, 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+('The Swiss Hogan', 'Ham', 'Swiss', 1, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
+('The Turkey Hogan', 'Turkey', 'Provolone', 1, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3),
+('Chicken Bacon Ranch', 'Chicken, Bacon', 'Cheddar', 1, 1, 1, 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
+('The Works', 'Ham, Turkey, Roast Beef', 'Provolone', 1, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5),
+('The Meatball Hogan', 'Meatballs', 'Provolone', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 6),
+('The Hogan Parm', 'Chicken', 'Provolone, Parmesean', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 7),
+('The Hot-n-Ham Hogan', 'Ham', 'Pepper Jack', 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, 1, NULL, NULL, 8),
+('The Reuben Hogan', 'Corned Beef', 'Swiss', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -56,12 +74,19 @@ CREATE TABLE `SANDWICH_ORDER` (
   `Quantity` int(11) DEFAULT NULL,
   `TakeOut` int(11) DEFAULT NULL,
   `OrderNo` int(11) NOT NULL,
-  `OrderDate` date DEFAULT NULL
+  `OrderDate` date DEFAULT NULL,
+  `Bread` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `SANDWICHES`
+--
+ALTER TABLE `SANDWICHES`
+  ADD PRIMARY KEY (`SandwichID`);
 
 --
 -- Indexes for table `SANDWICH_ORDER`
