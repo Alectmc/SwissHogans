@@ -59,6 +59,10 @@
 
             };
 
+            echo "<li><b>Build Your Own!</b></li>";
+            echo "</ol>";
+
+            $conn->close();
         ?>
 
 
