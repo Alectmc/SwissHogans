@@ -35,7 +35,7 @@
             #11 <input type="radio" name="order" value="11"> <br>
             Quantity (Default is 1): <input type="text" name="quantity"> <br>
             Take Out: YES<input type="radio" name="takeout" value="1"> NO<input type="radio" name="takeout" value="0"> <br>
-            Bread: <input type="text" name="bread"> <br>
+            Bread (Default is White Bread): <input type="text" name="bread"> <br>
             <input type="submit">
         </form>
 
@@ -86,18 +86,33 @@
 
             if($_SERVER["REQUEST_METHOD"] == "POST"){
                 if(empty($_POST['order'])){
-                    echo "Please select an option!";
+                    echo "Please select an option! <br>";
+                    die();
+                }
+                else if(empty($_POST['takeout'])){
+                    echo "Take out/dine in is required! <br>";
+                    die();
                 }
                 else{
-                    $orderNum = $_POST["order"];
+                    $orderSelection = $_POST["order"];
 
-                    if($orderNum == 11){
+                    if($orderSelection == 11){
                         header("Location: ../PHP_Scripts/swisshogans.php");
                         $conn->close();
                         die();
                     }
                     else{
-
+                        $price = 4.99 //Placeholder;
+                        
+                        if(empty($_POST['quantity'])){
+                            $quantity = 1;
+                        }
+                        else{
+                            $quantity = $_POST['quantity'];
+                        }
+                        
+                        $takeOut = $_POST['takeout'];
+                        $OrderNo;
                     }
                 }
             }
