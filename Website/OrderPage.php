@@ -33,6 +33,9 @@
             #9 <input type="radio" name="order" value="9"> <br>
             #10 <input type="radio" name="order" value="10"> <br>
             #11 <input type="radio" name="order" value="11"> <br>
+            Quantity (Default is 1): <input type="text" name="quantity"> <br>
+            Take Out: YES<input type="radio" name="takeout" value="1"> NO<input type="radio" name="takeout" value="0"> <br>
+            Bread: <input type="text" name="bread"> <br>
             <input type="submit">
         </form>
 
@@ -92,6 +95,9 @@
                         header("Location: ../PHP_Scripts/swisshogans.php");
                         $conn->close();
                         die();
+                    }
+                    else{
+
                     }
                 }
             }
