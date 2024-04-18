@@ -2,7 +2,9 @@
 
 <html>
     <head>
+ 
     <link type="text/css" rel="stylesheet" href="MainPage.css" />
+
     </head>
     <title></title>
 
@@ -45,7 +47,27 @@
                             echo "<b>" . $value . "</b><br>";
                         }
                         else if($value == "1") {
-                            echo ", " . $key;
+                            if($key == "ItalianDressing") {
+                                echo ", Italian Dressing";
+                            }
+                            else if($key == "HotSauce") {
+                                echo ", Hot Sauce";
+                            }
+                            else if($key == "Banana Peppers") {
+                                echo ", Italian Dressing";
+                            }
+                            else if($key == "ThousandIslandDressing") {
+                                echo ", Thousand Island Dressing";
+                            }
+                            else if($key == "SauteedOnions") {
+                                echo ", Italian Dressing";
+                            }
+                            else if($key == "SauteedPeppers") {
+                                echo ", Sauteed Peppers";
+                            }
+                            else {
+                                echo ", " . $key;
+                            }
                         }
                         else if($key == "Cheese") {
                             echo ", " . $value;
@@ -56,7 +78,7 @@
                     }
                 }
                 echo "</li>";
-
+                echo "<br>";
             };
 
             echo "<li><b>Build Your Own!</b></li>";
