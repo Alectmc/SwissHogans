@@ -1,17 +1,17 @@
 body{
-    background-color: black;
+    background-color: rgb(157, 167, 153);
 } 
 
 h1{
     text-align: center;
-    margin: 0px auto; 
+    margin: 0px auto;
 }
 
 img{
     float: right;
     width: 300px;
     height: 300px;
-    border: solid black 2px;
+    border: solid 2px #ffffff; /* White border for better visibility */
     margin-right: 75px;
 }
 
@@ -28,13 +28,13 @@ img{
     height: 50px;
     line-height: 50px;
     font-size: 20px;
-    background-color: rgb(127, 126, 126);
-    border: 1px solid black;
+    background-color: #2f2f2f; /* A lighter shade of gray */
+    color: #ffffff; /* White text */
+    border: 1px solid #ffffff; /* White border */
 }
 
 #ul_nav li a:hover{
-    border: 1px solid black ;
-    border-color: white;
-    background-color: rgb(78, 78, 78);
-    color: white;
+    border-color: #ffd700; /* Gold border on hover for a pop of color */
+    background-color: #404040; /* Even lighter gray for hover */
+    color: #ffd700; /* Gold text color on hover */
 }

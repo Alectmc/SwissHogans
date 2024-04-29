@@ -1,124 +1,84 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="OrderPage.css">
+    <title>Place Your Order</title>
+</head>
+<body>
+    <div id="div_nav">
+        <ul id="ul_nav">
+            <li><a href="./MainPage.php">Menu</a></li>
+            <li><a href="./OrderPage.php">Order</a></li>
+            <li><a href="./admin_login.php">Admin</a></li>
+        </ul>
+    </div>
 
-<html>
-    <head>
-        <link rel="stylesheet" href="OrderPage.css">
-        <link type="text/css" rel="stylesheet" href="OrderPage.css" />
-    </head>
-    <title></title>
-
-    <body>
-        <div id="div_nav">
-            <ul id="ul_nav">
-                <li><a href="./MainPage.php">Menu</a></li>
-                <li><a href="./OrderPage.php">Order</a></li>
-            </ul>
-        </div>
-
-        <img src="./img.png">
-        <br>
-        <br>
-        <h1>Place Order Below</h1>
-
-        <h2>Order by Number</h2>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            #1 <input type="radio" name="order" value="1"> <br>
-            #2 <input type="radio" name="order" value="2"> <br>
-            #3 <input type="radio" name="order" value="3"> <br>
-            #4 <input type="radio" name="order" value="4"> <br>
-            #5 <input type="radio" name="order" value="5"> <br>
-            #6 <input type="radio" name="order" value="6"> <br>
-            #7 <input type="radio" name="order" value="7"> <br>
-            #8 <input type="radio" name="order" value="8"> <br>
-            #9 <input type="radio" name="order" value="9"> <br>
-            #10 <input type="radio" name="order" value="10"> <br>
-            #11 <input type="radio" name="order" value="11"> <br>
-            Quantity (Default is 1): <input type="text" name="quantity"> <br>
-            Take Out: YES<input type="radio" name="takeout" value="1"> NO<input type="radio" name="takeout" value="0"> <br>
-            Bread (Default is White Bread): <input type="text" name="bread"> <br>
-            <input type="submit">
-        </form>
-
-        <h3>Menu:</h3>
-
+    <img src="./img.png">
+    <h1>Place Order Below</h1>
+    <h2>Order by Number</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
         <?php
-            $server = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "swisshogans";
+        // Create and check database connection
+        $conn = new mysqli("localhost", "root", "", "swisshogans");
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
 
-            $conn = new mysqli($server, $username, $password, $dbname);
-
-            // Get pre-made sandwiches
-            $getSandwiches = "SELECT *
-                                FROM sandwiches
-                                WHERE SandwichID BETWEEN 1 AND 10";
-
-            $result = mysqli_query($conn, $getSandwiches);
-
-            echo "<ol>";
-            while($row = mysqli_fetch_assoc($result)) {
-                echo "<li>";
-                foreach($row as $key=>$value) { // get the value for each row
-                    if($key != "SandwichID") {
-                        if($key == "Name") {
-                            echo "<b>" . $value . "</b><br>";
-                        }
-                        else if($value == "1") {
-                            echo ", " . $key;
-                        }
-                        else if($key == "Cheese") {
-                            echo ", " . $value;
-                        }
-                        else {
-                            echo "<td>" . $value . "</td>"; 
-                        }
-                    }
-                }
-                echo "</li>";
-
-                
-            };
-
-            echo "<li><b>Build Your Own!</b></li>";
-            echo "</ol>";
-
-
-            if($_SERVER["REQUEST_METHOD"] == "POST"){
-                if(empty($_POST['order'])){
-                    echo "Please select an option! <br>";
-                    die();
-                }
-                else if(empty($_POST['takeout'])){
-                    echo "Take out/dine in is required! <br>";
-                    die();
-                }
-                else{
-                    $orderSelection = $_POST["order"];
-
-                    if($orderSelection == 11){
-                        header("Location: ../PHP_Scripts/swisshogans.php");
-                        $conn->close();
-                        die();
-                    }
-                    else{
-                        $price = 4.99 //Placeholder;
-                        
-                        if(empty($_POST['quantity'])){
-                            $quantity = 1;
-                        }
-                        else{
-                            $quantity = $_POST['quantity'];
-                        }
-                        
-                        $takeOut = $_POST['takeout'];
-                        $OrderNo;
-                    }
-                }
+        // Fetch sandwich options
+        $sql = "SELECT * FROM sandwiches WHERE SandwichID BETWEEN 1 AND 10";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo '<input type="radio" name="order" value="' . $row["SandwichID"] . '"> #' . $row["SandwichID"] . ' ' . $row["Name"] . '<br>';
             }
-
-            $conn->close();
+        }
         ?>
+        Quantity (Default is 1): <input type="text" name="quantity" value="1"><br>
+        Take Out: YES<input type="radio" name="takeout" value="1"> NO<input type="radio" name="takeout" value="0" checked><br>
+        Bread (Default is White Bread): <input type="text" name="bread"><br>
+        <input type="submit" value="Submit Order">
+    </form>
 
-    </body>
+    <h3>Menu:</h3>
+    <ol>
+        <?php
+        // Display sandwich menu details
+        $result->data_seek(0); // Reset result pointer to the beginning for re-use
+        while($row = $result->fetch_assoc()) {
+            echo "<li><b>" . $row["Name"] . "</b>: " . $row["Meat"] . ", " . $row["Cheese"] . "</li>";
+        }
+        ?>
+        <li><b>Build Your Own!</b></li>
+    </ol>
+
+    <?php
+    // Handle form submission
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST['order'])) {
+            echo "Please select a sandwich option! <br>";
+        } elseif (!isset($_POST['takeout'])) {
+            echo "Please select take out option! <br>";
+        } else {
+            $orderSelection = $_POST["order"];
+            $quantity = empty($_POST['quantity']) ? 1 : $_POST['quantity'];
+            $takeOut = $_POST['takeout'];
+            $bread = empty($_POST['bread']) ? 'White Bread' : $_POST['bread'];
+            $orderDate = date('Y-m-d');
+            $price = 4.99; // Example fixed price
+
+            $stmt = $conn->prepare("INSERT INTO SANDWICH_ORDER (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("idiiss", $orderSelection, $price, $quantity, $takeOut, $orderDate, $bread);
+            if ($stmt->execute()) {
+                echo "New order created successfully.<br>";
+            } else {
+                echo "Error: " . $stmt->error;
+            }
+            $stmt->close();
+        }
+        $conn->close();
+    }
+    ?>
+</body>
 </html>
