@@ -13,8 +13,6 @@
             <li><a href="./OrderPage.php">Order</a></li>
             <li><a href="./admin_login.php">Admin</a></li>
             <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
-            <li><a href="./userlogin.php">Login</a></li>
-            <li><a href="./usersignup.php">Signup</a></li>
         </ul>
     </div>
 
@@ -100,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $orderNo = rand(10000000, 99999999); // Generating a unique OrderNo
 
     // Insert order into sandwich_order
-    $stmt = $conn->prepare("INSERT INTO sandwich_order (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO sandwich_order (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread, OrderStatus) VALUES (?, ?, ?, ?, ?, ?, 'In Progress')");
     $quantity = 1;  // Default quantity for custom sandwiches
     $takeOut = 1;   // Assuming take out is always true for online orders
     $orderDate = date('Y-m-d');  // Current date
