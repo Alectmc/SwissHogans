@@ -18,11 +18,10 @@
             </ul>
         </div>
         <img src="./img.png">
-        <br>
-        <br>
+        <br><br><br><br>
         <h1>Welcome to Swiss Hogans!</h1>
 
-        <br><br>
+        <br>
         <h3>Menu:</h3>
 
         <?php

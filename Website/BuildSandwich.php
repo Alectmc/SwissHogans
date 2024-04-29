@@ -55,20 +55,27 @@
         echo '</div><br>';
 
         // Topping options
-        $toppingNames = ['Mayo', 'Lettuce', 'Tomato', 'Onion', 'Mustard', 'Ranch', 'ItalianDressing', 'HotSauce', 'Marinara', 'Mushrooms', 'Jalapenos', 'BananaPeppers', 'Sauerkraut', 'ThousandIslandDressing', 'SauteedOnions', 'SauteedPeppers'];
-        $toppingCounter = 1;
-        foreach ($toppingNames as $toppingName) {
-            echo '<div class="ingredient-section">';
-            echo '<label for="' . strtolower($toppingName) . '">Topping ' . $toppingCounter . ':</label>';
-            echo '<select name="' . strtolower($toppingName) . '" id="' . strtolower($toppingName) . '">';
-            createSelectOptions($conn, 'toppings');
-            echo '</select>';
-            echo '</div>';
-            $toppingCounter++;
-}
+        $sql = "SELECT * FROM custom_sandwiches LIMIT 1";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                foreach($row as $key => $value) {
+                    if($key != 'Meat' && $key != 'Cheese' && $key != 'ID') {
+                        echo "<input type='checkbox' name='items[]' value='$key'> $key <br>";
+                    }
+                }
+            }
+        }
+        else {
+            echo "failure";
+        }
 
-        $conn->close();
+
+
+            $conn->close();
         ?>  
+        
+
         <div class="ingredient-section">
             <p>Total Price: $
             <span id="totalPrice">0.00</span></p>
@@ -80,8 +87,8 @@
        
         
         <?php
-    // Handle form submission
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Handle form submission
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Create connection
         $conn = new mysqli("localhost", "root", "", "swisshogans");
 
@@ -94,7 +101,8 @@
         $meat = $_POST['meat'];
         $cheese = $_POST['cheese'];
         $totalPrice = $_POST['totalPrice'];
-        $orderNo = time() . rand(1000, 9999);  // Generating a unique OrderNo
+        $items = $_POST['items'];
+        $orderNo = rand(10000000, 99999999); // Generating a unique OrderNo
 
         // Prepare and bind
         $stmt = $conn->prepare("INSERT INTO SANDWICH_ORDER (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread) VALUES (?, ?, ?, ?, ?, ?)");
@@ -109,6 +117,18 @@
         } else {
             echo "Error: " . $stmt->error;
         }
+
+        // Add new sandwich to custom_sandwiches table
+        $fullItemList = array("Meat", "Cheese", "Mayo", "Lettuce", "Tomato", "Onion", "Mustard", "Ranch", "ItalianDressing", "HotSauce", "Marinara", "Mushrooms", "Jalapenos", "BananaPeppers", "Saurkraut", "ThousandIslandDressing", "SauteedOnions", "SauteedPeppers");
+        $newRow = "INSERT INTO custom_sandwiches (ID) VALUES ($orderNo)";
+        $conn->query($newRow);
+        foreach($fullItemList as $col) {
+            foreach($items as $item) {
+                if($item == $col)
+                $conn->query("UPDATE custom_sandwiches SET $item = 1 WHERE ID = $orderNo");
+            }
+        }
+        
 
         $stmt->close();
         $conn->close();
