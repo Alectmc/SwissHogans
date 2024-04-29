@@ -41,6 +41,7 @@ $result = $conn->query($sql);
             <li><a href="./MainPage.php">Menu</a></li>
             <li><a href="./OrderPage.php">Order</a></li>
             <li><a href="./admin_login.php">Admin</a></li>
+            <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
         </ul>
     </div>
     <h1>All Order History</h1>
