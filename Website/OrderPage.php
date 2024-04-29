@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="OrderPage.css">
+    <link type="text/css" rel="stylesheet" href="OrderPage.css" />
     <title>Place Your Order</title>
 </head>
 <body>
@@ -12,10 +12,12 @@
             <li><a href="./MainPage.php">Menu</a></li>
             <li><a href="./OrderPage.php">Order</a></li>
             <li><a href="./admin_login.php">Admin</a></li>
+            <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
         </ul>
     </div>
 
     <img src="./img.png">
+    <br><br><br><br><br>
     <h1>Place Order Below</h1>
     <h2>Order by Number</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">

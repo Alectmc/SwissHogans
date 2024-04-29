@@ -23,8 +23,10 @@
             <li><a href="./MainPage.php">Menu</a></li>
             <li><a href="./OrderPage.php">Order</a></li>
             <li><a href="./admin_login.php">Admin</a></li>
+            <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
         </ul>
     </div>
+    
     <form name="loginForm" action="../PHP_Scripts/admin_verification.php" method="post" onsubmit="return validateForm()">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br>

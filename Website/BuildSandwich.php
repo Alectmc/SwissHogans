@@ -17,6 +17,8 @@
     </div>
 
     <img src="./img.png">
+    <br><br><br><br>
+    
     <h1>Build Your Own Sandwich</h1>
     <form id="sandwichForm" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
         <?php
@@ -40,7 +42,7 @@
         echo '<div class="ingredient-section">';
         echo '<label for="meat">Choose your meat:</label>';
         echo '<select name="meat" id="meat">';
-        createSelectOptions($conn, 'Meats');
+        createSelectOptions($conn, 'meats');
         echo '</select>';
         echo '</div>';
 
@@ -48,9 +50,9 @@
         echo '<div class="ingredient-section">';
         echo '<label for="cheese">Choose your cheese:</label>';
         echo '<select name="cheese" id="cheese">';
-        createSelectOptions($conn, 'Cheeses');
+        createSelectOptions($conn, 'cheeses');
         echo '</select>';
-        echo '</div>';
+        echo '</div><br>';
 
         // Topping options
         $toppingNames = ['Mayo', 'Lettuce', 'Tomato', 'Onion', 'Mustard', 'Ranch', 'ItalianDressing', 'HotSauce', 'Marinara', 'Mushrooms', 'Jalapenos', 'BananaPeppers', 'Sauerkraut', 'ThousandIslandDressing', 'SauteedOnions', 'SauteedPeppers'];
@@ -59,7 +61,7 @@
             echo '<div class="ingredient-section">';
             echo '<label for="' . strtolower($toppingName) . '">Topping ' . $toppingCounter . ':</label>';
             echo '<select name="' . strtolower($toppingName) . '" id="' . strtolower($toppingName) . '">';
-            createSelectOptions($conn, 'Toppings');
+            createSelectOptions($conn, 'toppings');
             echo '</select>';
             echo '</div>';
             $toppingCounter++;
