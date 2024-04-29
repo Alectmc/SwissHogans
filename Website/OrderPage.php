@@ -13,8 +13,6 @@
             <li><a href="./OrderPage.php">Order</a></li>
             <li><a href="./admin_login.php">Admin</a></li>
             <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
-            <li><a href="./userlogin.php">Login</a></li>
-            <li><a href="./usersignup.php">Signup</a></li>
         </ul>
     </div>
 
@@ -72,7 +70,7 @@
             $orderDate = date('Y-m-d');
             $price = 4.99; // Example fixed price
 
-            $stmt = $conn->prepare("INSERT INTO SANDWICH_ORDER (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO SANDWICH_ORDER (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread, OrderStatus) VALUES (?, ?, ?, ?, ?, ?, 'In Progress')");
             $stmt->bind_param("idiiss", $orderSelection, $price, $quantity, $takeOut, $orderDate, $bread);
             if ($stmt->execute()) {
                 echo "New order created successfully.<br>";

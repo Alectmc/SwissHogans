@@ -1,8 +1,8 @@
 <?php
-session_start(); // Start the session
+    require "../PHP_Scripts/session_manager.php";
 
 // Check if the user is logged in
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+if (!isset($_SESSION['loggedin'])) {
     header("Location: admin_login.php"); // Redirect to login page if not logged in
     exit;
 }
@@ -49,11 +49,11 @@ $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         // Start the table and print headers
         echo "<table>";
-        echo "<tr><th>Order No</th><th>Price</th><th>Quantity</th><th>TakeOut</th><th>OrderDate</th><th>Bread</th></tr>";
+        echo "<tr><th>Order No</th><th>Price</th><th>Quantity</th><th>TakeOut</th><th>OrderDate</th><th>Bread</th><th>Order Status</th></tr>";
 
         // Output data of each row
         while($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row["OrderNo"] . "</td><td>" . $row["Price"] . "</td><td>" . $row["Quantity"] . "</td><td>" . ($row["TakeOut"] ? "Yes" : "No") . "</td><td>" . $row["OrderDate"] . "</td><td>" . $row["Bread"] . "</td></tr>";
+            echo "<tr><td>" . $row["OrderNo"] . "</td><td>" . $row["Price"] . "</td><td>" . $row["Quantity"] . "</td><td>" . ($row["TakeOut"] ? "Yes" : "No") . "</td><td>" . $row["OrderDate"] . "</td><td>" . $row["Bread"] . "</td><td>" . $row["OrderStatus"] . "</td></tr>";
         }
         echo "</table>";
     } else {
