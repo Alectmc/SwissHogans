@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="admin_login.css" />
-    <title>Admin Login</title>
+    <title>User Login</title>
     <script>
         function validateForm() {
             var username = document.forms["loginForm"]["username"].value;
@@ -28,8 +28,9 @@
             <li><a href="./usersignup.php">Signup</a></li>
         </ul>
     </div>
-    <h1>Admin Login</h1>
-    <form name="loginForm" action="../PHP_Scripts/admin_verification.php" method="post" onsubmit="return validateForm()">
+    <h1>Customer Login</h1>
+
+    <form name="loginForm" action="../PHP_Scripts/userlogin_verification.php" method="post" onsubmit="return validateForm()">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br>
         <label for="password">Password:</label>

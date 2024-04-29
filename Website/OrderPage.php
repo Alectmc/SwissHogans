@@ -13,6 +13,8 @@
             <li><a href="./OrderPage.php">Order</a></li>
             <li><a href="./admin_login.php">Admin</a></li>
             <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
+            <li><a href="./userlogin.php">Login</a></li>
+            <li><a href="./usersignup.php">Signup</a></li>
         </ul>
     </div>
 

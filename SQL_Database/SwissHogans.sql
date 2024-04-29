@@ -263,6 +263,23 @@ ALTER TABLE `sandwiches`
 ALTER TABLE `sandwich_order`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
+CREATE TABLE `userLogin` (
+  `UserID` int NOT NULL AUTO_INCREMENT,
+  `Username` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL, -- This should store a hashed password
+  PRIMARY KEY (`UserID`),
+  UNIQUE KEY `Username` (`Username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `UserOrders` (
+  `UserOrderID` int NOT NULL AUTO_INCREMENT,
+  `UserID` int NOT NULL,
+  `OrderID` int NOT NULL,
+  PRIMARY KEY (`UserOrderID`),
+  FOREIGN KEY (`UserID`) REFERENCES `userLogin`(`UserID`) ON DELETE CASCADE,
+  FOREIGN KEY (`OrderID`) REFERENCES `sandwich_order`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
