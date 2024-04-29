@@ -5,17 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="admin_login.css" />
     <title>Admin Login</title>
-    <script>
-        function validateForm() {
-            var username = document.forms["loginForm"]["username"].value;
-            var password = document.forms["loginForm"]["password"].value;
-            if (username === "" || password === "") {
-                alert("Both username and password must be filled out");
-                return false;
-            }
-            return true;
-        }
-    </script>
+    <script src="admin_login.js"></script>
 </head>
 <body>
     <div id="div_nav">
