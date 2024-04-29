@@ -55,25 +55,19 @@
         echo '</div><br>';
 
         // Topping options
-        $sql = "SELECT * FROM custom_sandwiches LIMIT 1";
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                foreach($row as $key => $value) {
-                    if($key != 'Meat' && $key != 'Cheese' && $key != 'ID') {
-                        echo "<input type='checkbox' name='items[]' value='$key'> $key <br>";
-                    }
+        $sql = "SELECT Name, Price FROM toppings";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<input type='checkbox' name='items[]' value='{$row['Name']}' data-price='{$row['Price']}'> {$row['Name']} <br>";
                 }
             }
-        }
-        else {
-            echo "failure";
-        }
+            else {
+                echo "No toppings available";
+            }
 
-
-
-            $conn->close();
-        ?>  
+$conn->close();
+?>  
         
 
         <div class="ingredient-section">
@@ -85,72 +79,101 @@
         <input type="submit" value="Submit Order">
     </form>
        
-        
-        <?php
-        // Handle form submission
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Create connection
-        $conn = new mysqli("localhost", "root", "", "swisshogans");
+    <?php
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Create connection
+    $conn = new mysqli("localhost", "root", "", "swisshogans");
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Collect all inputs
-        $meat = $_POST['meat'];
-        $cheese = $_POST['cheese'];
-        $totalPrice = $_POST['totalPrice'];
-        $items = $_POST['items'];
-        $orderNo = rand(10000000, 99999999); // Generating a unique OrderNo
-
-        // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO SANDWICH_ORDER (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread) VALUES (?, ?, ?, ?, ?, ?)");
-        $quantity = 1;  // Default quantity for custom sandwiches
-        $takeOut = 1;   // Assuming take out is always true for online orders
-        $orderDate = date('Y-m-d');  // Current date
-        $bread = 'White Bread';  // Default bread type, you can customize this if needed
-
-        $stmt->bind_param("sdiiss", $orderNo, $totalPrice, $quantity, $takeOut, $orderDate, $bread);
-        if ($stmt->execute()) {
-            echo "Order placed successfully. Order No: $orderNo";
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        // Add new sandwich to custom_sandwiches table
-        $fullItemList = array("Meat", "Cheese", "Mayo", "Lettuce", "Tomato", "Onion", "Mustard", "Ranch", "ItalianDressing", "HotSauce", "Marinara", "Mushrooms", "Jalapenos", "BananaPeppers", "Saurkraut", "ThousandIslandDressing", "SauteedOnions", "SauteedPeppers");
-        $newRow = "INSERT INTO custom_sandwiches (ID) VALUES ($orderNo)";
-        $conn->query($newRow);
-        foreach($fullItemList as $col) {
-            foreach($items as $item) {
-                if($item == $col)
-                $conn->query("UPDATE custom_sandwiches SET $item = 1 WHERE ID = $orderNo");
-            }
-        }
-        
-
-        $stmt->close();
-        $conn->close();
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-    ?>
 
-    <script>
-        $(document).ready(function() {
-            // Update total price when ingredient selections change
-            $('#sandwichForm').on('change', 'select', function() {
-                updatePrice();
-            });
-        });
+    // Collect all inputs
+    $meat = $_POST['meat'];
+    $cheese = $_POST['cheese'];
+    $totalPrice = $_POST['totalPrice'];
+    $items = isset($_POST['items']) ? $_POST['items'] : [];
+    $orderNo = rand(10000000, 99999999); // Generating a unique OrderNo
 
-        function updatePrice() {
-            var totalPrice = 0;
-            $('#sandwichForm select').each(function() {
-                totalPrice += parseFloat($(this).find(':selected').data('price'));
-            });
-            $('#totalPrice').text(totalPrice.toFixed(2));
-            $('#hiddenTotalPrice').val(totalPrice.toFixed(2)); // Update hidden input to submit form
+    // Insert order into sandwich_order
+    $stmt = $conn->prepare("INSERT INTO sandwich_order (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread) VALUES (?, ?, ?, ?, ?, ?)");
+    $quantity = 1;  // Default quantity for custom sandwiches
+    $takeOut = 1;   // Assuming take out is always true for online orders
+    $orderDate = date('Y-m-d');  // Current date
+    $bread = 'White Bread';  // Default bread type
+
+    $stmt->bind_param("idiiis", $orderNo, $totalPrice, $quantity, $takeOut, $orderDate, $bread);
+    if ($stmt->execute()) {
+        echo "Order placed successfully. Order No: $orderNo";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Mapping display names to database column names
+    $columnMapping = [
+        'Mayo' => 'Mayo',
+        'Lettuce' => 'Lettuce',
+        'Tomato' => 'Tomato',
+        'Onion' => 'Onion',
+        'Mustard' => 'Mustard',
+        'Ranch' => 'Ranch',
+        'Italian Dressing' => 'ItalianDressing',
+        'Hot Sauce' => 'HotSauce',
+        'Marinara' => 'Marinara',
+        'Mushrooms' => 'Mushrooms',
+        'Jalapenos' => 'Jalapenos',
+        'Banana Peppers' => 'BananaPeppers',
+        'Sauerkraut' => 'Sauerkraut',
+        'Thousand Island Dressing' => 'ThousandIslandDressing',
+        'Sauteed Onions' => 'SauteedOnions',
+        'Sauteed Peppers' => 'SauteedPeppers'
+    ];
+
+    // Insert new sandwich to custom_sandwiches table
+    $sql = "INSERT INTO custom_sandwiches (ID, Meat, Cheese) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iss", $orderNo, $meat, $cheese);
+    $stmt->execute();
+
+    // Update toppings in custom_sandwiches
+    foreach ($columnMapping as $key => $dbColumn) {
+        if (in_array($key, $items)) {
+            $sql = "UPDATE custom_sandwiches SET `$dbColumn` = 1 WHERE ID = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $orderNo);
+            $stmt->execute();
         }
-    </script>
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
+
+
+
+<script>
+    $(document).ready(function() {
+        // Update total price when ingredient selections change
+        $('#sandwichForm').on('change', 'select, input[type="checkbox"]', function() {
+            updatePrice();
+        });
+    });
+
+    function updatePrice() {
+        var totalPrice = 0;
+        $('#sandwichForm select').each(function() {
+            totalPrice += parseFloat($(this).find(':selected').data('price') || 0);
+        });
+        $('#sandwichForm input[type="checkbox"]:checked').each(function() {
+            totalPrice += parseFloat($(this).data('price') || 0);
+        });
+        $('#totalPrice').text(totalPrice.toFixed(2));
+        $('#hiddenTotalPrice').val(totalPrice.toFixed(2)); // Update hidden input to submit form
+    }
+</script>
 </body>
 </html>
