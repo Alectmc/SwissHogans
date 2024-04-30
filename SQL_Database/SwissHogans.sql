@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 30, 2024 at 02:20 AM
+-- Generation Time: Apr 30, 2024 at 02:28 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -220,30 +220,6 @@ INSERT INTO `toppings` (`Name`, `Price`) VALUES
 ('Thousand Island Dressing', 0.40),
 ('Tomato', 0.30);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `userLogin`
---
-
-CREATE TABLE `userLogin` (
-  `UserID` int(11) NOT NULL,
-  `Username` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `UserOrders`
---
-
-CREATE TABLE `UserOrders` (
-  `UserOrderID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
-  `OrderID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Indexes for dumped tables
 --
@@ -285,21 +261,6 @@ ALTER TABLE `toppings`
   ADD PRIMARY KEY (`Name`);
 
 --
--- Indexes for table `userLogin`
---
-ALTER TABLE `userLogin`
-  ADD PRIMARY KEY (`UserID`),
-  ADD UNIQUE KEY `Username` (`Username`);
-
---
--- Indexes for table `UserOrders`
---
-ALTER TABLE `UserOrders`
-  ADD PRIMARY KEY (`UserOrderID`),
-  ADD KEY `UserID` (`UserID`),
-  ADD KEY `OrderID` (`OrderID`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -320,29 +281,6 @@ ALTER TABLE `sandwiches`
 --
 ALTER TABLE `sandwich_order`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `userLogin`
---
-ALTER TABLE `userLogin`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `UserOrders`
---
-ALTER TABLE `UserOrders`
-  MODIFY `UserOrderID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `UserOrders`
---
-ALTER TABLE `UserOrders`
-  ADD CONSTRAINT `userorders_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `userLogin` (`UserID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `userorders_ibfk_2` FOREIGN KEY (`OrderID`) REFERENCES `sandwich_order` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
