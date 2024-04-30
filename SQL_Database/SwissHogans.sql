@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 30, 2024 at 02:47 AM
+-- Generation Time: Apr 30, 2024 at 06:09 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -93,6 +93,7 @@ CREATE TABLE `custom_sandwiches` (
 
 INSERT INTO `custom_sandwiches` (`Meat`, `Cheese`, `Mayo`, `Lettuce`, `Tomato`, `Onion`, `Mustard`, `Ranch`, `ItalianDressing`, `HotSauce`, `Marinara`, `Mushrooms`, `Jalapenos`, `BananaPeppers`, `Sauerkraut`, `ThousandIslandDressing`, `SauteedOnions`, `SauteedPeppers`, `ID`) VALUES
 ('h', 'h', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+('Chicken', 'Cheddar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 11),
 (NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, NULL, 70540916);
 
 -- --------------------------------------------------------
@@ -150,7 +151,7 @@ CREATE TABLE `sandwiches` (
 --
 
 INSERT INTO `sandwiches` (`Name`, `Meat`, `Cheese`, `Mayo`, `Lettuce`, `Tomato`, `Onion`, `Mustard`, `Ranch`, `ItalianDressing`, `HotSauce`, `Marinara`, `Mushrooms`, `Jalapenos`, `BananaPeppers`, `Sauerkraut`, `ThousandIslandDressing`, `SauteedOnions`, `SauteedPeppers`, `Price`, `SandwichID`) VALUES
-('ItalianDressing', 'Ham, Salami, Pepperoni', 'Provolone', 1, 1, 1, 1, 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+('Italian', 'Ham, Salami, Pepperoni', 'Provolone', 1, 1, 1, 1, 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
 ('The Swiss Hogan', 'Ham', 'Swiss', 1, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
 ('The Turkey Hogan', 'Turkey', 'Provolone', 1, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3),
 ('Chicken Bacon Ranch', 'Chicken, Bacon', 'Cheddar', 1, 1, 1, 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
@@ -183,9 +184,17 @@ CREATE TABLE `sandwich_order` (
 --
 
 INSERT INTO `sandwich_order` (`id`, `OrderNo`, `Price`, `Quantity`, `TakeOut`, `OrderDate`, `Bread`, `OrderStatus`) VALUES
-(1, 1, 5, 1, 0, '2024-04-29', 'White Bread', 'In Progress'),
-(9, 70540916, 0, 1, 1, '2024-04-29', 'White Bread', 'In Progress'),
-(10, 4, 5, 1, 0, '2024-04-29', 'White Bread', 'Ready');
+(1, 1, 5, 1, 0, '2024-04-29', 'White Bread', 'Ready'),
+(9, 70540916, 0, 1, 1, '2024-04-29', 'White Bread', 'Ready'),
+(10, 4, 5, 1, 0, '2024-04-29', 'White Bread', 'Ready'),
+(11, 1, 5, 1, 1, '2024-04-30', 'White Bread', 'Ready'),
+(12, 5, 5, 1, 0, '2024-04-30', 'White Bread', 'In Progress'),
+(13, 5, 5, 1, 0, '2024-04-30', 'White Bread', 'In Progress'),
+(14, 10, 5, 1, 0, '2024-04-30', 'White Bread', 'In Progress'),
+(15, 8, 5, 1, 0, '2024-04-30', 'White Bread', 'In Progress'),
+(16, 11, 3, 1, 1, '2024-04-30', 'White Bread', 'In Progress'),
+(17, 11, 3, 1, 1, '2024-04-30', 'White Bread', 'In Progress'),
+(18, 11, 3, 1, 1, '2024-04-30', 'White Bread', 'In Progress');
 
 -- --------------------------------------------------------
 
@@ -280,7 +289,7 @@ ALTER TABLE `sandwiches`
 -- AUTO_INCREMENT for table `sandwich_order`
 --
 ALTER TABLE `sandwich_order`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
