@@ -80,3 +80,30 @@ p {
     text-align: center;
     margin-top: 10px; 
 }
+
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #fff;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #ed84f6;
+    color: white;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #e1f5fe;
+
+}

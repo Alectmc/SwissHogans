@@ -32,7 +32,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Orders</title>
+    <title>Admin Home</title>
     <link type="text/css" rel="stylesheet" href="admin.css" />
 </head>
 <body>
@@ -40,8 +40,9 @@ $result = $conn->query($sql);
         <ul id="ul_nav">
             <li><a href="./MainPage.php">Menu</a></li>
             <li><a href="./OrderPage.php">Order</a></li>
-            <li><a href="./admin_login.php">Admin</a></li>
             <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
+            <li><a href="./orderLookup.php">Order Lookup</a></li>
+            <li><a href="./admin_login.php">Admin</a></li>
         </ul>
     </div>
     <h1>All Order History</h1>
