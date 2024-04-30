@@ -14,8 +14,6 @@
             <li><a href="./OrderPage.php">Order</a></li>
             <li><a href="./admin_login.php">Admin</a></li>
             <li><a href="./BuildSandwich.php">Create Sandwich</a></li>
-            <li><a href="./userlogin.php">Login</a></li>
-            <li><a href="./usersignup.php">Signup</a></li>
         </ul>
     </div>
     <h1>Admin Login</h1>
@@ -61,20 +59,6 @@
                 $conn->close();
                 die();
             }
-
-
-            /* Validate credentials
-            if ($username === "root" && $password === "root") {
-                $_SESSION['loggedin'] = true; 
-                header("Location: ../Website/admin.php");
-                exit;
-            } else {
-                header("Location: ../Website/admin_login.php?error=invalid");
-                exit;
-            }
-        } else {
-            header("Location: ../Website/admin_login.php?error=invalid");
-            exit;*/
     }
 
 ?>

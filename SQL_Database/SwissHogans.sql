@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 30, 2024 at 01:49 AM
+-- Generation Time: Apr 30, 2024 at 02:20 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -185,7 +185,7 @@ CREATE TABLE `sandwich_order` (
 INSERT INTO `sandwich_order` (`id`, `OrderNo`, `Price`, `Quantity`, `TakeOut`, `OrderDate`, `Bread`, `OrderStatus`) VALUES
 (1, 1, 5, 1, 0, '2024-04-29', 'White Bread', 'In Progress'),
 (9, 70540916, 0, 1, 1, '2024-04-29', 'White Bread', 'In Progress'),
-(10, 4, 5, 1, 0, '2024-04-29', 'White Bread', 'In Progress');
+(10, 4, 5, 1, 0, '2024-04-29', 'White Bread', 'Ready');
 
 -- --------------------------------------------------------
 

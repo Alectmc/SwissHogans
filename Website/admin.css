@@ -46,6 +46,7 @@ form {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     width: 300px; 
     margin-top: 20px; 
+    text-align: center;
 }
 
 
@@ -79,4 +80,34 @@ th {
 tr:hover {
     background-color: #e1f5fe;
 
+}
+
+#logout {
+	text-decoration: none;
+	padding: 10px;
+	background-color: #e65050;
+	border-radius: 18px 18px 18px 18px;
+	font-size: 32px;
+	cursor: pointer;
+	color: white;
+}
+
+#status {
+    background-color: #ed84f6;
+    cursor: pointer;
+    font-size: 32px;
+    padding: 25px;
+	border-radius: 18px 18px 18px 18px;
+    text-decoration: none;
+    color: white;
+}
+
+
+#submitButton {
+    background-color: #ed84f6;
+    cursor: pointer;
+    padding: 10px;
+	border-radius: 18px 18px 18px 18px;
+    text-decoration: none;
+    color: white;
 }

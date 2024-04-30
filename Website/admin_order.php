@@ -59,14 +59,44 @@ $result = $conn->query($sql);
     } else {
         echo "0 results";
     }
-    $conn->close();
     ?>
 
-    <h2>Select an Option</h2>
+    <h2>Select an Order to Mark as Ready!</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+        <select name='orderNums'>
 
-    <a id="status" href="./admin_order.php" style="">Set Order Status</a>
-    <br>
-    <a id="logout" href="./logout.php">Logout</a>
+    <?php
+        $orderNoSql = "SELECT OrderNo FROM sandwich_order";
+        $result = mysqli_query($conn, $orderNoSql);
+
+        while($row = mysqli_fetch_assoc($result)){
+            echo "<option>";
+            foreach($row as $value){
+                echo $value;
+            }
+            echo "</option>";
+        }
+        echo "<br> <input id='submitButton' type='submit'>";
+        echo "</select></form> <br>";
+
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $orderNumber = $_POST['orderNums'];
+
+            $sqlStatus = "UPDATE sandwich_order SET OrderStatus = 'Ready' WHERE OrderNo = ?";
+
+            $stmt = $conn->prepare($sqlStatus);
+            $stmt->bind_param("i", $orderNumber);
+            
+            if($stmt->execute()){
+                echo "<p style='color: green; font-size: 24px;'>Order Now Ready!</p>";
+            }
+            else{
+                echo "<p style='color: red;'>Sorry, An error has occurred...</p>";
+            }
+        }
+
+        $conn->close();
+    ?>
 
 </body>
 </html>
