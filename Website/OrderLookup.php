@@ -16,7 +16,7 @@
             <li><a href="./admin_login.php">Admin</a></li>
         </ul>
     </div>
-    <h1>Admin Login</h1>
+    <h1>Order Lookup</h1>
     <form name="loginForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
         <label for="ordernum">Order ID:</label>
         <input type="number" id="ordernum" name="ordernum" required><br>
