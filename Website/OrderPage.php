@@ -71,10 +71,16 @@
             $orderDate = date('Y-m-d');
             $price = 4.99; // Example fixed price
 
+            $idSql = "SELECT MAX(id) AS OrderID FROM sandwich_order";
+            $resultID = mysqli_query($conn, $idSql);
+            $resultArray = mysqli_fetch_assoc($resultID);
+            $id = $resultArray['OrderID'] + 1;
+
             $stmt = $conn->prepare("INSERT INTO SANDWICH_ORDER (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread, OrderStatus) VALUES (?, ?, ?, ?, ?, ?, 'In Progress')");
             $stmt->bind_param("idiiss", $orderSelection, $price, $quantity, $takeOut, $orderDate, $bread);
             if ($stmt->execute()) {
                 echo "New order created successfully.<br>";
+                echo "Your order ID is " . $id . "<br>";
             } else {
                 echo "Error: " . $stmt->error;
             }

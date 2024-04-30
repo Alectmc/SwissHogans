@@ -50,11 +50,11 @@ $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         // Start the table and print headers
         echo "<table>";
-        echo "<tr><th>Order No</th><th>Price</th><th>Quantity</th><th>TakeOut</th><th>OrderDate</th><th>Bread</th><th>Order Status</th></tr>";
+        echo "<tr><th>Order ID</th><th>Order No</th><th>Price</th><th>Quantity</th><th>TakeOut</th><th>OrderDate</th><th>Bread</th><th>Order Status</th></tr>";
 
         // Output data of each row
         while($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row["OrderNo"] . "</td><td>" . $row["Price"] . "</td><td>" . $row["Quantity"] . "</td><td>" . ($row["TakeOut"] ? "Yes" : "No") . "</td><td>" . $row["OrderDate"] . "</td><td>" . $row["Bread"] . "</td><td>" . $row["OrderStatus"] . "</td></tr>";
+            echo "<tr><td>" . $row["id"] . "</td><td>" . $row["OrderNo"] . "</td><td>" . $row["Price"] . "</td><td>" . $row["Quantity"] . "</td><td>" . ($row["TakeOut"] ? "Yes" : "No") . "</td><td>" . $row["OrderDate"] . "</td><td>" . $row["Bread"] . "</td><td>" . $row["OrderStatus"] . "</td></tr>";
         }
         echo "</table>";
     } else {
@@ -67,7 +67,7 @@ $result = $conn->query($sql);
         <select name='orderNums'>
 
     <?php
-        $orderNoSql = "SELECT OrderNo FROM sandwich_order";
+        $orderNoSql = "SELECT id FROM sandwich_order";
         $result = mysqli_query($conn, $orderNoSql);
 
         while($row = mysqli_fetch_assoc($result)){
@@ -83,7 +83,7 @@ $result = $conn->query($sql);
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $orderNumber = $_POST['orderNums'];
 
-            $sqlStatus = "UPDATE sandwich_order SET OrderStatus = 'Ready' WHERE OrderNo = ?";
+            $sqlStatus = "UPDATE sandwich_order SET OrderStatus = 'Ready' WHERE id = ?";
 
             $stmt = $conn->prepare($sqlStatus);
             $stmt->bind_param("i", $orderNumber);

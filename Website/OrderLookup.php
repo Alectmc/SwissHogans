@@ -18,7 +18,7 @@
     </div>
     <h1>Admin Login</h1>
     <form name="loginForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
-        <label for="ordernum">Order Number:</label>
+        <label for="ordernum">Order ID:</label>
         <input type="number" id="ordernum" name="ordernum" required><br>
         <input type="submit">
     </form> <br>
@@ -26,10 +26,10 @@
     <?php
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             if(empty($_POST['ordernum'])){
-                echo "<p style='color: red;'>Order Number is required.</p>";
+                echo "<p style='color: red;'>Order ID is required.</p>";
             }
             else{
-                $orderNumber = $_POST['ordernum'];
+                $orderID = $_POST['ordernum'];
 
                 // Database connection setup
                 $servername = "localhost";
@@ -45,10 +45,10 @@
                     die("Connection failed: " . $conn->connect_error);
                 }
 
-                $sql = "SELECT OrderNo, OrderStatus FROM sandwich_order WHERE OrderNo = ?";
+                $sql = "SELECT id, OrderNo, OrderStatus FROM sandwich_order WHERE id = ?";
 
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("i", $orderNumber);
+                $stmt->bind_param("i", $orderID);
                 $stmt->execute();
 
                 $result = $stmt->get_result();
@@ -61,7 +61,7 @@
                     echo "<p style='color: green; font-size: 24px;'>ORDER FOUND!</p>";
 
                     echo "<table>";
-                    echo "<tr><th>Order Number</th> <th>Order Status</th></tr>";
+                    echo "<tr><th>Order ID</th><th>Order Number</th> <th>Order Status</th></tr>";
 
                     while($row = mysqli_fetch_assoc($result)){
                         echo "<tr>";

@@ -67,7 +67,6 @@
                 echo "No toppings available";
             }
 
-$conn->close();
 ?>  
         
 
@@ -84,34 +83,35 @@ $conn->close();
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Create connection
-    $conn = new mysqli("localhost", "root", "", "swisshogans");
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     // Collect all inputs
     $meat = $_POST['meat'];
     $cheese = $_POST['cheese'];
     $totalPrice = $_POST['totalPrice'];
     $items = isset($_POST['items']) ? $_POST['items'] : [];
-    $orderNo = rand(10000000, 99999999); // Generating a unique OrderNo
+    $orderNo = 11; // Generating a unique OrderNo
 
     // Insert order into sandwich_order
-    $stmt = $conn->prepare("INSERT INTO sandwich_order (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread, OrderStatus) VALUES (?, ?, ?, ?, ?, ?, 'In Progress')");
+    //$stmt = $conn->prepare("INSERT INTO sandwich_order (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread, OrderStatus) VALUES (?, ?, ?, ?, ?, ?, 'In Progress')");
     $quantity = 1;  // Default quantity for custom sandwiches
     $takeOut = 1;   // Assuming take out is always true for online orders
     $orderDate = date('Y-m-d');  // Current date
     $bread = 'White Bread';  // Default bread type
 
-    $stmt->bind_param("idiiis", $orderNo, $totalPrice, $quantity, $takeOut, $orderDate, $bread);
-    if ($stmt->execute()) {
-        echo "Order placed successfully. Order No: $orderNo";
+    $idSql = "SELECT MAX(id) AS OrderID FROM sandwich_order";
+    $resultID = mysqli_query($conn, $idSql);
+    $resultArray = mysqli_fetch_assoc($resultID);
+    $id = $resultArray['OrderID'] + 1;
+
+    $sqlStmt = "INSERT INTO sandwich_order (OrderNo, Price, Quantity, TakeOut, OrderDate, Bread, OrderStatus) VALUES (11, '$totalPrice', 1, 1, '$orderDate', 'White Bread', 'In Progress')";
+
+    if ($conn->query($sqlStmt) === TRUE) {
+        echo "Order placed successfully. Order ID: $id";
     } else {
         echo "Error: " . $stmt->error;
     }
 
+    echo "<script>console.log('test2');</script>";
     // Mapping display names to database column names
     $columnMapping = [
         'Mayo' => 'Mayo',
