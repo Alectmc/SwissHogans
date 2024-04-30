@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO custom_sandwiches (ID, Meat, Cheese) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iss", $orderNo, $meat, $cheese);
-    $stmt->execute();
+    /*$stmt->execute();
 
     // Update toppings in custom_sandwiches
     foreach ($columnMapping as $key => $dbColumn) {
@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $stmt->close();
+    $stmt->close();*/
     $conn->close();
 }
 ?>
