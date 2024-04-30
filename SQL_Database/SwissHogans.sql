@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 29, 2024 at 10:03 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Apr 30, 2024 at 01:49 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `swisshogans`
+-- Database: `SwissHogans`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `username` varchar(30) DEFAULT NULL,
+  `pass` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`username`, `pass`) VALUES
+('superadmin', 'password101');
 
 -- --------------------------------------------------------
 
@@ -156,17 +174,18 @@ CREATE TABLE `sandwich_order` (
   `Quantity` int(11) DEFAULT NULL,
   `TakeOut` int(11) DEFAULT NULL,
   `OrderDate` date DEFAULT NULL,
-  `Bread` varchar(30) DEFAULT NULL
+  `Bread` varchar(30) DEFAULT NULL,
+  `OrderStatus` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sandwich_order`
 --
 
-INSERT INTO `sandwich_order` (`id`, `OrderNo`, `Price`, `Quantity`, `TakeOut`, `OrderDate`, `Bread`) VALUES
-(1, 1, 5, 1, 0, '2024-04-29', 'White Bread'),
-(9, 70540916, 0, 1, 1, '2024-04-29', 'White Bread'),
-(10, 4, 5, 1, 0, '2024-04-29', 'White Bread');
+INSERT INTO `sandwich_order` (`id`, `OrderNo`, `Price`, `Quantity`, `TakeOut`, `OrderDate`, `Bread`, `OrderStatus`) VALUES
+(1, 1, 5, 1, 0, '2024-04-29', 'White Bread', 'In Progress'),
+(9, 70540916, 0, 1, 1, '2024-04-29', 'White Bread', 'In Progress'),
+(10, 4, 5, 1, 0, '2024-04-29', 'White Bread', 'In Progress');
 
 -- --------------------------------------------------------
 
@@ -200,6 +219,30 @@ INSERT INTO `toppings` (`Name`, `Price`) VALUES
 ('Sauteed Peppers', 0.30),
 ('Thousand Island Dressing', 0.40),
 ('Tomato', 0.30);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userLogin`
+--
+
+CREATE TABLE `userLogin` (
+  `UserID` int(11) NOT NULL,
+  `Username` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `UserOrders`
+--
+
+CREATE TABLE `UserOrders` (
+  `UserOrderID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `OrderID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -242,6 +285,21 @@ ALTER TABLE `toppings`
   ADD PRIMARY KEY (`Name`);
 
 --
+-- Indexes for table `userLogin`
+--
+ALTER TABLE `userLogin`
+  ADD PRIMARY KEY (`UserID`),
+  ADD UNIQUE KEY `Username` (`Username`);
+
+--
+-- Indexes for table `UserOrders`
+--
+ALTER TABLE `UserOrders`
+  ADD PRIMARY KEY (`UserOrderID`),
+  ADD KEY `UserID` (`UserID`),
+  ADD KEY `OrderID` (`OrderID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -262,24 +320,30 @@ ALTER TABLE `sandwiches`
 --
 ALTER TABLE `sandwich_order`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `userLogin`
+--
+ALTER TABLE `userLogin`
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `UserOrders`
+--
+ALTER TABLE `UserOrders`
+  MODIFY `UserOrderID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `UserOrders`
+--
+ALTER TABLE `UserOrders`
+  ADD CONSTRAINT `userorders_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `userLogin` (`UserID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `userorders_ibfk_2` FOREIGN KEY (`OrderID`) REFERENCES `sandwich_order` (`id`) ON DELETE CASCADE;
 COMMIT;
-CREATE TABLE `userLogin` (
-  `UserID` int NOT NULL AUTO_INCREMENT,
-  `Username` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL, -- This should store a hashed password
-  PRIMARY KEY (`UserID`),
-  UNIQUE KEY `Username` (`Username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `UserOrders` (
-  `UserOrderID` int NOT NULL AUTO_INCREMENT,
-  `UserID` int NOT NULL,
-  `OrderID` int NOT NULL,
-  PRIMARY KEY (`UserOrderID`),
-  FOREIGN KEY (`UserID`) REFERENCES `userLogin`(`UserID`) ON DELETE CASCADE,
-  FOREIGN KEY (`OrderID`) REFERENCES `sandwich_order`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
